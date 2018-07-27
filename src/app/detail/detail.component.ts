@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../data.service';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs'
+import swal from 'sweetalert'
 
 @Component({
   selector: 'app-detail',
@@ -7,9 +11,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailComponent implements OnInit {
 
-  constructor() { }
+  user: Object;
+
+  constructor(private data: DataService, private route: ActivatedRoute) {
+    this.route.params.subscribe(params => this.user = params.id);
+  }
 
   ngOnInit() {
+    this.data.getUser(this.user).subscribe(data => this.user = data);
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to leave this page?",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then(willDelete => {
+        if (willDelete) {
+          swal("Deleted!", "Your imaginary file has been deleted!", "success");
+        }
+      });
+
   }
 
 }

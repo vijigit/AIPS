@@ -17,3 +17,6 @@ body {
      grid-template-columns: 70px auto;
 height: 100%;
 }
+.activated {
+    background-color: #00a8ff;
+}

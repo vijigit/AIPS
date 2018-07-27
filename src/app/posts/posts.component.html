@@ -1,3 +1,17 @@
-<p>
-  posts works!
-</p>
+<h1> Post Data </h1>
+
+<ul>
+
+  <li *ngFor='let post of posts$'>
+    <h2>Here is the post {{ post.id }}</h2>
+    <p> {{ post.title }}</p>
+    <p> {{ post.body }} </p>
+  </li>
+
+</ul>
+
+
+<!-- <popup>
+   Displaying the Popup Title for Title ID {{ singlePost.id }}   
+</popup> -->
+

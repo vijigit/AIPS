@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../data.service';
+import {Observable } from 'rxjs';
+import {ActivatedRoute } from '@angular/router' ;
+//import { Popup } from 'ng2-opd-popup';
 
 @Component({
   selector: 'app-posts',
@@ -7,9 +11,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostsComponent implements OnInit {
 
-  constructor() { }
+  posts$ : Object;
+  postId : Object;
+  singlePost :Object;
 
-  ngOnInit() {
+  constructor(private data : DataService, private route : ActivatedRoute) { 
+    this.route.params.subscribe ( params => this.postId = params.id );
   }
 
+  ngOnInit() {
+    this.data.getPosts().subscribe(data => this.posts$ =data );    
+  }
+
+  clickPopup(){
+  
+  }
 }
