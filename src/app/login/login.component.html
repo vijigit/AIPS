@@ -1,0 +1,65 @@
+<div class="limiter">
+  <div class="container-login100">       
+      <span class="welcome-title">
+          Welcome to AIPS
+      </span> 
+    <div class="wrap-login100"> 
+      <div class="login100-pic tilt pic">
+        <img src="assets/interview.png" alt="IMG">
+      </div>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <span class="login100-form-title">
+          Login
+        </span>
+
+        <div class="wrap-input100 form-group">
+          <input class="input100 form-control" type="email" name="email" placeholder="Email" formControlName="email" id="email">
+          <span class="focus-input100"></span>
+          <span class="symbol-input100">
+            <i class="material-icons">email</i>
+          </span>
+          <div *ngIf="submitted && loginForm.controls.email.errors" class="error">
+            <div *ngIf="loginForm.controls.email.errors.required">Email is required</div>
+          </div>
+        </div>
+
+        <div class="wrap-input100 form-group">
+          <input class="input100 form-control" type="password" name="password" placeholder="Password" formControlName="password" id="pwd">
+          <span class="focus-input100"></span>
+          <span class="symbol-input100">
+            <i class="material-icons">lock</i>
+          </span>
+          <div *ngIf="submitted && loginForm.controls.password.errors" class="error">
+            <div *ngIf="loginForm.controls.password.errors.required">Password is required</div>
+          </div>
+        </div>
+        
+        <div>
+          <button class="login100-form-btn btn btn-default">
+            Login
+          </button>
+          <div *ngIf="invalidLogin" class="error">
+            <div>Invalid credentials.</div>
+          </div>
+        </div>
+
+        <div class="text-center p-t-12">
+          <span class="txt1">
+            Forgot
+          </span>
+          <a class="txt2" href="#">
+            Username / Password?
+          </a>
+        </div>
+
+        <div class="text-center p-t-136">
+          <a class="txt2" href="#">
+            Create your Account
+            <i class="material-icons md-24">arrow_right_alt</i>
+          </a>
+        </div>
+      </form>
+    </div>    
+  </div>
+  <p align="right">v0.0.0</p>
+</div>

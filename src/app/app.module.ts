@@ -11,6 +11,8 @@ import { HttpClientModule} from '@angular/common/http'
 //import { PopupModule } from 'ng2-opd-popup';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap'; 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AdminDashboardComponent } from './admin.dashboard/admin.dashboard.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DashboardComponent,
     UserComponent,
     DetailComponent,
-    PostsComponent
+    PostsComponent,
+    LoginComponent,
+    AdminDashboardComponent
   ],
   imports: [
     BrowserModule,
