@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {first} from "rxjs/operators";
-import {AuthenticationService} from "../authentication.service";
 
 
 @Component({
@@ -15,7 +14,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted: boolean = false;
   invalidLogin: boolean = false;
-  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthenticationService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router) { }
 
   onSubmit() {
     this.submitted = true;
@@ -23,7 +22,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     if(this.loginForm.controls.email.value == 'rekha.k@ericsson.com' && this.loginForm.controls.password.value == 'password') {
-        this.router.navigate(['admin-dashboard']);
+        this.router.navigate(['users-dashboard']);
     }else {
       this.invalidLogin = true;
     }

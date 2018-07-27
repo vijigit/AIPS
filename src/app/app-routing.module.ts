@@ -10,25 +10,30 @@ import { AdminDashboardComponent } from './admin.dashboard/admin.dashboard.compo
 
 const routes: Routes = [
 
+ 
   {
-    path: '',
-    component: UserComponent
-  },
-  {
-    path: 'posts',
+    path: 'users-dashboard/posts',
     component: PostsComponent
   },
   {
-    path: 'details/:id',
+    path: 'users-dashboard/details/:id',
     component: DetailComponent
   },
   {
-    path: "login",
+    path: 'users-dashboard/users',
+    component: UserComponent
+  },
+  {
+    path: '',
     component: LoginComponent
   },
   {
     path:"admin-dashboard",
     component: AdminDashboardComponent
+  },
+  {
+    path: 'users-dashboard',
+    component: DashboardComponent
   }
 ];
 
