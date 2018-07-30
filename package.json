@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
     "@ng-bootstrap/ng-bootstrap": "^2.2.0",
+    "amazon-cognito-identity-js": "^1.20.0",
     "core-js": "^2.5.4",
     "ng2-opd-popup": "^1.1.21",
     "rxjs": "^6.0.0",

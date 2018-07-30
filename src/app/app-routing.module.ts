@@ -6,6 +6,7 @@ import { UserComponent } from 'src/app/user/user.component';
 import { PostsComponent } from 'src/app/posts/posts.component';
 import { LoginComponent } from './login/login.component';
 import { AdminDashboardComponent } from './admin.dashboard/admin.dashboard.component';
+import { RegisterComponent } from './register/register.component';
 
 
 const routes: Routes = [
@@ -34,6 +35,10 @@ const routes: Routes = [
   {
     path: 'users-dashboard',
     component: DashboardComponent
+  }
+  {
+    path: 'register',
+    component: RegisterComponent
   }
 ];
 

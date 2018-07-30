@@ -8,12 +8,15 @@ import { UserComponent } from './user/user.component';
 import { DetailComponent } from './detail/detail.component';
 import { PostsComponent } from './posts/posts.component';
 import { HttpClientModule} from '@angular/common/http'
+import { HttpModule } from '@angular/http'
 //import { PopupModule } from 'ng2-opd-popup';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap'; 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminDashboardComponent } from './admin.dashboard/admin.dashboard.component';
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { AuthorizationService } from './authorization.service';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     DetailComponent,
     PostsComponent,
     LoginComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -33,8 +37,9 @@ import {ReactiveFormsModule} from "@angular/forms";
   //  PopupModule.forRoot(),
   BrowserAnimationsModule,
   ReactiveFormsModule,
+  HttpModule
   ],
-  providers: [],
+  providers: [AuthorizationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
