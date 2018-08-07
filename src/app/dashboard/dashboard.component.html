@@ -1,10 +1,14 @@
 <div id="containter">
+
 <nav>
     <ul>
       <li>
+        <span aria-colspan="2">
         <a routerLink="users" [class.activated] ="currentURL == '/users-dashboard' ">
           <i class="material-icons">supervised_user_circle</i>
         </a>
+        <app-header></app-header>
+      </span>
       </li>
       <li>
           <a routerLink="posts" [class.activated] ="currentURL == '/users-dashboard/posts'">
@@ -13,5 +17,7 @@
         </li>
     </ul>
   </nav>
+
+  <app-user></app-user>
 
 </div>

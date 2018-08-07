@@ -17,6 +17,8 @@ import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { AuthorizationService } from './authorization.service';
 import { RegisterComponent } from './register/register.component';
+import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { RegisterComponent } from './register/register.component';
     PostsComponent,
     LoginComponent,
     AdminDashboardComponent,
-    RegisterComponent
+    RegisterComponent,
+    ForgotpasswordComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

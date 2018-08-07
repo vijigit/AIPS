@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthorizationService} from "../authorization.service";
 import {NgForm} from "@angular/forms";
+import swal from 'sweetalert'
 
 
 @Component({
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['users-dashboard']);
     }, (err)=> {
       this.invalidLogin = true;
+      swal("Invalid credentials");
     });  
   }
 

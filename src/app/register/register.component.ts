@@ -3,7 +3,7 @@ import {NgForm} from "@angular/forms";
 import {AuthorizationService} from "../authorization.service";
 import { Router } from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-
+import swal from 'sweetalert'
 // https://github.com/aws/amazon-cognito-identity-js
 // https://docs.aws.amazon.com/cognito/latest/developerguide/using-amazon-cognito-user-identity-pools-javascript-examples.html
 
@@ -32,8 +32,9 @@ export class RegisterComponent implements OnInit{
         this.registration = false;
       },
       (err) => {
-        console.log(err);
+        //console.log(err);
         this.error = "Registration Error has occurred";
+        swal('Password Policy Error: Min Length 6, Must include capital, Small case,Special character and number.');
       }
     );
   }

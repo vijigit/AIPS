@@ -79,7 +79,7 @@ export class AuthorizationService {
         },
         onFailure: function(err) {
           console.log(err);
-          observer.error(err);
+          
         }
       });
     });
@@ -98,4 +98,49 @@ export class AuthorizationService {
     this.getAuthenticatedUser().signOut();
     this.cognitoUser = null;
   }
+
+  resetPassword(email) {
+    const user = {
+      Username : email,
+      Pool : userPool
+    };
+    const cognitoUser = new CognitoUser(user);
+    return Observable.create(observer => {
+      
+    cognitoUser.forgotPassword({
+      onSuccess: function (result) {
+          
+          console.log('call result: ' + JSON.stringify(result));
+          observer.next(result);
+          observer.complete();
+      },
+      onFailure: function(err) {
+          observer.error(err);
+      }
+
+  });
+    });
+  } 
+
+  confirmPassword(verificationCode,email, newPassword, data) {
+     const user = {
+      Username : email,
+      Pool : userPool
+    };
+    console.log(email);
+    const  cognitoUser = new CognitoUser(user);
+
+    const promise = new Promise((resolve, reject) => {
+      cognitoUser.confirmPassword(verificationCode, newPassword, {
+         onSuccess: function () {           
+             resolve();
+        },
+        onFailure: function(err) {
+            reject(err);
+        }  
+    });
+    return promise;
+  });     
+   
+  } 
 }
