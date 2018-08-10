@@ -9,7 +9,15 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private auth: AuthorizationService,  private _router: Router) { }
+  userName: string ="";
+
+  constructor(private auth: AuthorizationService,  private _router: Router) {
+    if(!this.auth.isLoggedIn()){
+      this._router.navigateByUrl("");
+  } else {
+    this.userName = this.auth.getAuthenticatedUser().getUsername().toString();
+    }
+   }
 
   ngOnInit() {
   }
@@ -18,4 +26,6 @@ export class HeaderComponent implements OnInit {
     this.auth.logOut();
     this._router.navigateByUrl('');
   }
+
+  
 }

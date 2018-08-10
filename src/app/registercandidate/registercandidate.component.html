@@ -1,0 +1,67 @@
+<div class="background">
+
+  >
+  <app-header></app-header>
+  <div class="reg-candidate">
+    <div class="login100-pic">
+      <img src="assets/images/icons/Candidate.png" width="200" alt="IMG">
+    </div>
+    <form [formGroup]="candidateRegisterForm" (ngSubmit)="registerCandidate(f)" #f="ngForm">
+
+      <div class="wrap-input100 form-group">
+        <input class="input100 form-control" type="text" name="candidateName" id="candidateName" placeholder="Candidate Name" formControlName="candidateName"
+          required>
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+          <i class="material-icons">perm_identity</i>
+        </span>
+      </div>
+
+      <div class="wrap-input100 form-group">
+        <input class="input100 form-control" type="text" name="candidateEmail" id="candidateEmail" placeholder="Candidate Email"
+          formControlName="candidateEmail" required>
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+          <i class="material-icons">email</i>
+        </span>
+      </div>
+
+      <div class="wrap-input100 form-group">
+        <select class="input100 form-control" (change)="filterForeCasts($event.target.value)">
+          <option value="0">Select Technology</option>
+          <option *ngFor="let technology of technologies" value={{technology}}>
+            {{technology}}
+          </option>
+        </select>
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+          <i class="material-icons">code</i>
+        </span>
+      </div>
+
+      <div>
+        <button class="login100-form-btn btn btn-default">
+          Register Candidate
+        </button>
+      </div>
+
+
+    </form>
+    <div style="float: right;">
+      <span>
+        <a routerLink="/users-dashboard">Back to Dashboard</a>
+        <i class="material-icons">
+          settings_backup_restore
+        </i>
+      </span>
+
+    </div>
+  </div>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <app-footer></app-footer>
+</div>

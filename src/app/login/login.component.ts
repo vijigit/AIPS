@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['users-dashboard']);
     }, (err)=> {
       this.invalidLogin = true;
-      swal("Invalid credentials");
+      swal("", err.message, "error")
     });  
   }
 

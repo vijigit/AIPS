@@ -19,7 +19,10 @@ import { AuthorizationService } from './authorization.service';
 import { RegisterComponent } from './register/register.component';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { HeaderComponent } from './header/header.component';
-
+import { RegistercandidateComponent } from './registercandidate/registercandidate.component';
+import { FooterComponent } from './footer/footer.component';
+import { CandidateloginComponent } from './candidatelogin/candidatelogin.component';
+import { DynamoDBService } from './sharedServices/dynamoDbService'
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +34,10 @@ import { HeaderComponent } from './header/header.component';
     AdminDashboardComponent,
     RegisterComponent,
     ForgotpasswordComponent,
-    HeaderComponent
+    HeaderComponent,
+    RegistercandidateComponent,
+    FooterComponent,
+    CandidateloginComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +49,7 @@ import { HeaderComponent } from './header/header.component';
   ReactiveFormsModule,
   HttpModule
   ],
-  providers: [AuthorizationService],
+  providers: [AuthorizationService, DynamoDBService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

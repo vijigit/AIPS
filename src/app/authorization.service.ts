@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import {AuthenticationDetails, CognitoUser, CognitoUserPool} from 'amazon-cognito-identity-js';
+import {AuthenticationDetails, CognitoUser, CognitoUserPool, CognitoUserAttribute} from 'amazon-cognito-identity-js';
 import { Observable } from 'rxjs';
+import { isPromise } from '../../node_modules/@angular/compiler/src/util';
 
 const poolData = {
-  UserPoolId: 'us-east-2_yeOYdn9PM', // Your user pool id here
-  ClientId: '30ms5qpeefvshisbfqr5jhb66j' // Your client id here  
+  UserPoolId: 'us-east-2_WRskRqbUk', // Your user pool id here
+  ClientId: '4kougipo3aqbguoflh2l6b598' // Your client id here  
 };
 
 const userPool = new CognitoUserPool(poolData);
@@ -15,12 +16,19 @@ export class AuthorizationService {
 
   constructor() { }
 
-  register(email, password) {
+  register(userName, email, password) {
 
     const attributeList = [];
+    const emailId = {
+      Name : "email",
+      Value : email
+    }
+
+    let attributeEmail = new CognitoUserAttribute(emailId);
+    attributeList.push(attributeEmail);
 
     return Observable.create(observer => {
-      userPool.signUp(email, password,  attributeList, null, (err, result) => {
+      userPool.signUp(userName, password,  attributeList, null, (err, result) => {
         if (err) {
           console.log("signUp error", err);
           observer.error(err);
@@ -77,7 +85,7 @@ export class AuthorizationService {
           observer.complete();
         },
         onFailure: function(err) {
-          console.log(err);
+          swal("",err.message,"error")
           
         }
       });
@@ -114,6 +122,7 @@ export class AuthorizationService {
           observer.complete();
       },
       onFailure: function(err) {
+        swal(err.message)
           observer.error(err);
       }
 
@@ -121,24 +130,26 @@ export class AuthorizationService {
     });
   } 
 
-  confirmPassword(verificationCode,email, newPassword, data) {
+  confirmPassword(verificationCode,email, newPassword, data): Promise<any> {
      const user = {
       Username : email,
       Pool : userPool
     };
+    
     console.log(email);
     const  cognitoUser = new CognitoUser(user);
 
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       cognitoUser.confirmPassword(verificationCode, newPassword, {
          onSuccess: function () {           
              resolve();
         },
         onFailure: function(err) {
-            reject(err);
+          
+          reject(err);
         }  
     });
-    return promise;
+    
   });     
    
   } 

@@ -8,6 +8,8 @@ import { LoginComponent } from './login/login.component';
 import { AdminDashboardComponent } from './admin.dashboard/admin.dashboard.component';
 import { RegisterComponent } from './register/register.component';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
+import { RegistercandidateComponent } from './registercandidate/registercandidate.component';
+import { CandidateloginComponent } from './candidatelogin/candidatelogin.component';
 
 
 const routes: Routes = [
@@ -43,6 +45,14 @@ const routes: Routes = [
   {
     path: "forget-password",
     component: ForgotpasswordComponent
+  },
+  {
+    path: "users-dashboard/register-candidate",
+    component: RegistercandidateComponent
+  },
+  {
+    path: 'candidate-login',
+    component: CandidateloginComponent
   }
 ];
 

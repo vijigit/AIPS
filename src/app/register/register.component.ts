@@ -26,16 +26,17 @@ export class RegisterComponent implements OnInit{
   register(form: NgForm) {
     const email = form.value.email;
     const password = form.value.password;
-    //const userName = form.value.userName;
-    this.auth.register(email, password).subscribe(
+    const userName = form.value.userName;
+    this.auth.register(userName, email, password).subscribe(
       (data) => {        
         this.confirmCode = true;
         this.registration = false;
       },
       (err) => {
-        //console.log(err);
+        //console.log(err.message);
+        swal("" , err.message, "error")
         this.error = "Registration Error has occurred";
-        swal('Password Policy Error: Min Length 6, Must include capital, Small case,Special character and number.');
+        //swal('Password Policy Error: Min Length 6, Must include capital, Small case,Special character and number.');
       }
     );
   }
@@ -52,7 +53,7 @@ export class RegisterComponent implements OnInit{
         this.confirmCode = false;
       },
       (err) => {
-        console.log(err);
+        swal("" , err.message, "error")
         this.error = "Confirm Authorization Error has occurred";
       });
   }
@@ -60,7 +61,8 @@ export class RegisterComponent implements OnInit{
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
       email: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      userName: ['', Validators.required]
     });
     this.codeform = this.formBuilder.group({
       code: ['', Validators.required]

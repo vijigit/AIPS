@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { UserComponent } from '../user/user.component';
-import { HeaderComponent } from '../header/header.component';
 import {AuthorizationService} from "../authorization.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-dashboard',
@@ -12,8 +11,12 @@ import {AuthorizationService} from "../authorization.service";
 export class DashboardComponent implements OnInit {
 
    currentURL : string;
-  constructor(private router : Router, private auth: AuthorizationService) {
-      router.events.subscribe((_:NavigationEnd) => this.currentURL = _.url)
+   dashboardForm : FormGroup;
+   technologies: any[];
+
+  constructor(private router : Router, private auth: AuthorizationService, private formBuilder: FormBuilder) {
+      router.events.subscribe((_:NavigationEnd) => this.currentURL = _.url);
+      this.technologies=["JAVA"];
 
    }
 
@@ -21,6 +24,10 @@ export class DashboardComponent implements OnInit {
     if(!this.auth.isLoggedIn()){
         this.router.navigateByUrl("");
     }
+    this.dashboardForm = this.formBuilder.group({
+      candidateEmail: ['', Validators.required],
+      candidateName: ['', Validators.required]
+    });
   }
 
 }
