@@ -22,7 +22,11 @@ import { HeaderComponent } from './header/header.component';
 import { RegistercandidateComponent } from './registercandidate/registercandidate.component';
 import { FooterComponent } from './footer/footer.component';
 import { CandidateloginComponent } from './candidatelogin/candidatelogin.component';
-import { DynamoDBService } from './sharedServices/dynamoDbService'
+import { DynamoDBService } from './sharedServices/dynamoDbService';
+import { CandidatedashboardComponent } from './candidatedashboard/candidatedashboard.component'
+import { CandidateServiceModule } from './candidate-service/candidate-service.module';
+import { JavaquestionsComponent } from './javaquestions/javaquestions.component';
+import { AddquestionsComponent } from './addquestions/addquestions.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +41,10 @@ import { DynamoDBService } from './sharedServices/dynamoDbService'
     HeaderComponent,
     RegistercandidateComponent,
     FooterComponent,
-    CandidateloginComponent
+    CandidateloginComponent,
+    CandidatedashboardComponent,
+    JavaquestionsComponent,
+    AddquestionsComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +56,7 @@ import { DynamoDBService } from './sharedServices/dynamoDbService'
   ReactiveFormsModule,
   HttpModule
   ],
-  providers: [AuthorizationService, DynamoDBService],
+  providers: [AuthorizationService, DynamoDBService, CandidateServiceModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

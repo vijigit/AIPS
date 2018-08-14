@@ -1,53 +1,128 @@
-import {Injectable} from "@angular/core";
-import {environment} from "../../environments/environment";
+import { Injectable } from "@angular/core";
+import { environment } from "../../environments/environment";
 import * as AWS from "aws-sdk";
 import * as DynamoDB from "aws-sdk/clients/dynamodb";
-import {AuthorizationService} from "../authorization.service";
+import { AuthorizationService } from "../authorization.service";
+import { CandidateServiceModule } from '../candidate-service/candidate-service.module';
+import { Observable } from 'rxjs';
 
 
 @Injectable()
 export class DynamoDBService {
 
-    constructor(private auth: AuthorizationService) {
+    constructor(private auth: AuthorizationService, private candidateService : CandidateServiceModule) {
         console.log("DynamoDBService: constructor");
     }
 
-      
 
-    writeLogEntry(email: string, secretCode: string) {
+
+    writeLogEntry(email: string, secretCode: string, name: string) {
         try {
             let date = new Date().toString();
-            console.log("DynamoDBService: Writing log entry. email:" + email ) ;
-            this.write(email, secretCode, date);
+            this.writeToCandidateLoginTbl(email, secretCode, date, name);
+            swal("", "Candidate registered successfully!!", "success");
         } catch (exc) {
             console.log("DynamoDBService: Couldn't write to DDB");
         }
 
     }
 
-    write(email: string, secretCode: string, date: string): void {
-        console.log("DynamoDBService: writing " + email + " entry");
-        AWS.config.update({region:'us-east-2'});
-        let clientParams:any = {
-            params: {TableName: environment.ddbTableName}
-        };
-        
-     
-        var DDB =  new   AWS.DynamoDB.DocumentClient();
+    writeToCandidateLoginTbl(email: string, secretCode: string, date: string, name: string): void {
 
-        // Write the item to the table
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+
         var itemParams =
-            {
-                TableName: environment.ddbTableName,
-                Item: {
-                    Email: {S: email},
-                    SecretCode: {S: secretCode},
-                    Date: {S: date}
-                }
-            };
+        {
+            TableName: environment.ddb_CandidateLoginDetail_Tbl,
+            Item: {
+                Email: email,
+                SecretCode: secretCode,
+                Date: date,
+                CandidateName: name
+            }
+        };
+
         DDB.put(itemParams, function (result) {
-            console.log("DynamoDBService: wrote entry: " + JSON.stringify(result));
+            console.log("DynamoDBService: wrote entry");
         });
+    }
+
+    getDataFromCandidateLoginTbl(email: string, secretCode: string) : Promise<any> {
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+
+        var params = {
+            TableName: environment.ddb_CandidateLoginDetail_Tbl,
+            Key: {
+                Email: email
+            },
+            ProjectionExpression: 'SecretCode, CandidateName'
+        };
+
+        return new Promise((resolve, reject) => {
+            DDB.get(params, function (err, data) {
+                if (err) {
+                    console.log(err);
+                    swal("", "Your secret code is wrong or you are not registered by admin", "error")
+                    reject(err);
+                } else {
+                    if (data.Item) {
+                        if (secretCode == data.Item.SecretCode) {
+                            //this.candidateService.setcandidateName(data.Item.CandidateName);
+                            resolve();
+                        } else {
+                            swal("", "Your secret code is wrong!!", "error")
+                            reject(err);
+                        }
+                    } else {
+                        swal("", "You are not registered by admin", "error")
+                        reject(err);
+                    }
+                }
+            });
+
+            
+        });
+    }
+
+
+    getDataFromJavaQuestionPool() {
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+
+        var params = {
+            TableName: environment.ddb_JavaQuesPool_Tbl,
+            ProjectionExpression: 'Question, Option1, Option2, Option3, Option4'
+        };
+
+
+        return Observable.create(observer => {
+            DDB.scan(params, function (err, data) {
+              if (err) {
+                console.log(err);
+                observer.error(err);
+              }
+              console.log("GetAllItem", data);
+                observer.next(data);
+                observer.complete();
+
+            });
+          });
     }
 
 }

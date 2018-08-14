@@ -15,15 +15,15 @@ export class RegistercandidateComponent implements OnInit {
   candidateRegisterForm: FormGroup;
   technologies: any[];
 
-  constructor(private router: Router, private auth: AuthorizationService, private formBuilder: FormBuilder, 
+  constructor(private router: Router, private auth: AuthorizationService, private formBuilder: FormBuilder,
     public ddb: DynamoDBService) {
     this.technologies = ["JAVA"];
   }
 
   ngOnInit() {
-    if(!this.auth.isLoggedIn()){
+    if (!this.auth.isLoggedIn()) {
       this.router.navigateByUrl("");
-  }
+    }
     this.candidateRegisterForm = this.formBuilder.group({
       candidateEmail: ['', Validators.required],
       candidateName: ['', Validators.required]
@@ -33,11 +33,12 @@ export class RegistercandidateComponent implements OnInit {
   registerCandidate(form: NgForm) {
 
     const email = form.value.candidateEmail;
-    const secretCode =  Math.floor(100000 + Math.random() * 900000)
+    const secretCode = Math.floor(100000 + Math.random() * 900000);
+    const candidateName = form.value.candidateName;
 
-    this.ddb.writeLogEntry(email, ""+secretCode);
+    this.ddb.writeLogEntry(email, "" + secretCode, candidateName);
 
-    
+
   }
 
 }

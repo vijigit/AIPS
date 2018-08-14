@@ -1,0 +1,27 @@
+<div id="containter" class="container-dashboard">
+  <div>
+    <app-header></app-header>
+     <ul  >
+      <li *ngFor="let item of items let i = index" >
+        <div class='dashbord-centre'>
+            <font color="red" >Question : {{i+1}}</font>
+          <br/>
+          <br/>
+          <span class="questions-disp">
+            {{item.question}}
+            <br/>
+            <br/>
+            <br/><font color="red">Options : </font>
+            <br/>
+            <br/>
+            <ol type="1">
+            <li>1. {{item.option1}}</li>
+            <li>2. {{item.option2}}</li>
+            <li>3. {{item.option3}}</li>
+            <li>4. {{item.option4}}</li></ol>
+          </span>
+        </div>
+      </li>
+      </ul>
+  </div>
+</div>

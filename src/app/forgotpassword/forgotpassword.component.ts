@@ -49,17 +49,12 @@ export class ForgotpasswordComponent implements OnInit {
     const verifyCode = form.value.codeValue;
     const newPwd = form.value.newPwd;
 
-    this.auth.confirmPassword(verifyCode, this.userEmail, newPwd, this.dataForm).then(function () {
-      this.passwordChanged = true;
-      this.verifyCodeStatus = false;
+    this.auth.confirmPassword(verifyCode, this.userEmail, newPwd, this.dataForm)
+            .then(() => this.router.navigate(['']));
+  
+          }
 
-    }).catch(function (err) {
-      swal("", err.message, "error")
-    });
-
-
-  }
-
+  
 
 
   ngOnInit() {

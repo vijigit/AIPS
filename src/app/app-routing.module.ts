@@ -10,6 +10,8 @@ import { RegisterComponent } from './register/register.component';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { RegistercandidateComponent } from './registercandidate/registercandidate.component';
 import { CandidateloginComponent } from './candidatelogin/candidatelogin.component';
+import { CandidatedashboardComponent } from './candidatedashboard/candidatedashboard.component';
+import { JavaquestionsComponent } from './javaquestions/javaquestions.component';
 
 
 const routes: Routes = [
@@ -53,6 +55,14 @@ const routes: Routes = [
   {
     path: 'candidate-login',
     component: CandidateloginComponent
+  },
+  {
+    path: 'candidate-login/candidate-dashboard',
+    component: CandidatedashboardComponent
+  },
+  {
+    path: 'users-dashboard/javaquestions',
+    component: JavaquestionsComponent
   }
 ];
 
