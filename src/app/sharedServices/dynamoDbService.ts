@@ -117,7 +117,71 @@ export class DynamoDBService {
                 console.log(err);
                 observer.error(err);
               }
-              console.log("GetAllItem", data);
+                observer.next(data);
+                observer.complete();
+
+            });
+          });
+    }
+
+    getTechnologies() {
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+
+        var params = {
+            TableName: environment.ddb_technology_Tbl,
+            ProjectionExpression: 'Technology_name'
+        };
+
+
+        return Observable.create(observer => {
+            DDB.scan(params, function (err, data) {
+              if (err) {
+                console.log(err);
+                observer.error(err);
+              }
+                observer.next(data);
+                observer.complete();
+
+            });
+          });
+    }
+
+
+    getQuestions(technology : string) {
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+        console.log(technology);
+
+        var params = {
+            TableName: environment.ddb_JavaQuesPool_Tbl,
+            ExpressionAttributeNames:{
+                "#tech": "Technology"
+            },
+            ExpressionAttributeValues: {
+                ":tech_name": technology
+            },            
+            ProjectionExpression: 'Question, Option1, Option2, Option3, Option4',
+            FilterExpression: "#tech = :tech_name",
+        };
+
+
+        return Observable.create(observer => {
+            DDB.scan(params, function (err, data) {
+              if (err) {
+                console.log(err);
+                observer.error(err);
+              }
                 observer.next(data);
                 observer.complete();
 

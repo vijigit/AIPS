@@ -30,7 +30,7 @@ export class CandidateloginComponent implements OnInit {
     const email = form.value.email;
     const secretCode = form.value.password;
     this.ddbService.getDataFromCandidateLoginTbl(email, secretCode)
-      .then( () => this.router.navigate(['candidate-login/candidate-dashboard']))
+      .then( () => this.router.navigate(['candidate-login/candidate-dashboard/'+email]))
       .catch( () => this.router.navigate(['candidate-login']));
       
       

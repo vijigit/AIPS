@@ -11,7 +11,7 @@ import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.compone
 import { RegistercandidateComponent } from './registercandidate/registercandidate.component';
 import { CandidateloginComponent } from './candidatelogin/candidatelogin.component';
 import { CandidatedashboardComponent } from './candidatedashboard/candidatedashboard.component';
-import { JavaquestionsComponent } from './javaquestions/javaquestions.component';
+import { QuestionpooldashboardComponent } from './questionpooldashboard/questionpooldashboard.component';
 
 
 const routes: Routes = [
@@ -57,12 +57,12 @@ const routes: Routes = [
     component: CandidateloginComponent
   },
   {
-    path: 'candidate-login/candidate-dashboard',
+    path: 'candidate-login/candidate-dashboard/:email',
     component: CandidatedashboardComponent
   },
   {
-    path: 'users-dashboard/javaquestions',
-    component: JavaquestionsComponent
+    path: 'users-dashboard/question-pool',
+    component: QuestionpooldashboardComponent
   }
 ];
 

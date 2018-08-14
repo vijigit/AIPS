@@ -25,8 +25,8 @@ import { CandidateloginComponent } from './candidatelogin/candidatelogin.compone
 import { DynamoDBService } from './sharedServices/dynamoDbService';
 import { CandidatedashboardComponent } from './candidatedashboard/candidatedashboard.component'
 import { CandidateServiceModule } from './candidate-service/candidate-service.module';
-import { JavaquestionsComponent } from './javaquestions/javaquestions.component';
 import { AddquestionsComponent } from './addquestions/addquestions.component';
+import { QuestionpooldashboardComponent } from './questionpooldashboard/questionpooldashboard.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,8 +43,8 @@ import { AddquestionsComponent } from './addquestions/addquestions.component';
     FooterComponent,
     CandidateloginComponent,
     CandidatedashboardComponent,
-    JavaquestionsComponent,
-    AddquestionsComponent
+    AddquestionsComponent,
+    QuestionpooldashboardComponent
   ],
   imports: [
     BrowserModule,

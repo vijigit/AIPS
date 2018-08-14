@@ -1,0 +1,30 @@
+<div id="containter" class="container-dashboard">
+  <div style="margin-left: 10%">
+    <app-header></app-header>
+    <div>
+      <div class="sidenav">
+        <ul>
+          <li *ngFor="let item of items">
+            <a href="javascript:void(0)" (click)="display(item.techname)">{{item.techname}}</a>
+          </li>
+        </ul>
+      </div>
+      <ul>
+          <li *ngFor="let item of questionItems let i = index">
+            <div class='dashbord-centre'>
+              <font color="red">Question : {{i+1}}</font>
+              <br/>
+              <br/>
+              <span class="questions-disp">
+                {{item.question}}
+                <br/>
+                <br/>
+        
+              </span>
+            </div>
+          </li>
+        </ul>
+    </div>
+  </div>
+</div>
+
