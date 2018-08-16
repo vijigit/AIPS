@@ -28,6 +28,16 @@ export class Item {
     get option4() { return this._option4; }
     set option4(value: string) { this._option4 = value; }
 
+    @JsonProperty("Answer", String, false)
+    private _answer: string = undefined;
+    get answer() { return this._answer; }
+    set answer(value: string) { this._answer = value; }
+
+    @JsonProperty("Technology", String, false)
+    private _techName: string = undefined;
+    get techName() { return this._techName; }
+    set techName(value: string) { this._techName = value; }
+
     
 
 

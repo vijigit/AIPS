@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthorizationService } from "../authorization.service";
 import { NgForm } from "@angular/forms";
-import swal from 'sweetalert'
+import Swal from 'sweetalert2';
 import { DynamoDBService } from '../sharedServices/dynamoDbService';
 import { CandidateServiceModule } from '../candidate-service/candidate-service.module'
 

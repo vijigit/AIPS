@@ -12,6 +12,7 @@ import { RegistercandidateComponent } from './registercandidate/registercandidat
 import { CandidateloginComponent } from './candidatelogin/candidatelogin.component';
 import { CandidatedashboardComponent } from './candidatedashboard/candidatedashboard.component';
 import { QuestionpooldashboardComponent } from './questionpooldashboard/questionpooldashboard.component';
+import { AddquestionsComponent } from './addquestions/addquestions.component';
 
 
 const routes: Routes = [
@@ -63,6 +64,10 @@ const routes: Routes = [
   {
     path: 'users-dashboard/question-pool',
     component: QuestionpooldashboardComponent
+  },
+  {
+    path: 'users-dashboard/add-questions',
+    component: AddquestionsComponent
   }
 ];
 

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationDetails, CognitoUser, CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import { Observable } from 'rxjs';
-import { isPromise } from '../../node_modules/@angular/compiler/src/util';
+import Swal from 'sweetalert2'
+import {environment} from '../environments/environment'
 
 const poolData = {
-  UserPoolId: 'us-east-2_WRskRqbUk', // Your user pool id here
-  ClientId: '4kougipo3aqbguoflh2l6b598' // Your client id here  
+  UserPoolId:  environment.userPoolId, // Your user pool id here
+  ClientId: environment.clientId // Your client id here  
 };
 
 const userPool = new CognitoUserPool(poolData);
@@ -85,7 +86,7 @@ export class AuthorizationService {
           observer.complete();
         },
         onFailure: function (err) {
-          swal("", err.message, "error")
+          Swal("", err.message, "error")
 
         }
       });
@@ -122,7 +123,7 @@ export class AuthorizationService {
           observer.complete();
         },
         onFailure: function (err) {
-          swal(err.message)
+          Swal(err.message)
           observer.error(err);
         }
 
@@ -142,11 +143,11 @@ export class AuthorizationService {
     return new Promise((resolve, reject) => {
       cognitoUser.confirmPassword(verificationCode, newPassword, {
         onSuccess: function () {
-          swal("", "Your Password changed sucessfully!!", "success");
+          Swal("", "Your Password changed sucessfully!!", "success");
           resolve();
         },
         onFailure: function (err) {
-          swal("",err.message,"error");
+          Swal("",err.message,"error");
           reject(err);
         }
       });

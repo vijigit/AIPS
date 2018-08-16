@@ -3,9 +3,7 @@ import {NgForm} from "@angular/forms";
 import {AuthorizationService} from "../authorization.service";
 import { Router } from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import swal from 'sweetalert'
-// https://github.com/aws/amazon-cognito-identity-js
-// https://docs.aws.amazon.com/cognito/latest/developerguide/using-amazon-cognito-user-identity-pools-javascript-examples.html
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-register',
@@ -34,7 +32,7 @@ export class RegisterComponent implements OnInit{
       },
       (err) => {
         //console.log(err.message);
-        swal("" , err.message, "error")
+        Swal("" , err.message, "error")
         this.error = "Registration Error has occurred";
         //swal('Password Policy Error: Min Length 6, Must include capital, Small case,Special character and number.');
       }
@@ -53,7 +51,7 @@ export class RegisterComponent implements OnInit{
         this.confirmCode = false;
       },
       (err) => {
-        swal("" , err.message, "error")
+        Swal("" , err.message, "error")
         this.error = "Confirm Authorization Error has occurred";
       });
   }

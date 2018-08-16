@@ -25,16 +25,25 @@
       </div>
 
       <div class="wrap-input100 form-group">
-        <select class="input100 form-control" (change)="filterForeCasts($event.target.value)">
-          <option value="0">Select Technology</option>
-          <option *ngFor="let technology of technologies" value={{technology}}>
-            {{technology}}
+       <!-- <select multiple class="input100 form-control" style="height: 201px;" (change)="selectValue($event.target.value)">
+         
+          <option *ngFor="let technology of items" value={{technology.techname}}>
+            {{technology.techname}}
           </option>
-        </select>
+        </select> -->
+
+        <!--ng-multiselect-dropdown
+  [Select technology]="'custom placeholder'"
+  [items]=  {{ items }}
+  [(ngModel)]="selectedItems"
+  [settings]="dropdownSettings"
+  (onSelect)="onItemSelect($event)"
+  (onSelectAll)="onSelectAll($event)"
+>
+</ng-multiselect-dropdown-->
+
         <span class="focus-input100"></span>
-        <span class="symbol-input100">
-          <i class="material-icons">code</i>
-        </span>
+        
       </div>
 
       <div>

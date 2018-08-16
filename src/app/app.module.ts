@@ -27,6 +27,7 @@ import { CandidatedashboardComponent } from './candidatedashboard/candidatedashb
 import { CandidateServiceModule } from './candidate-service/candidate-service.module';
 import { AddquestionsComponent } from './addquestions/addquestions.component';
 import { QuestionpooldashboardComponent } from './questionpooldashboard/questionpooldashboard.component';
+import {  NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +55,8 @@ import { QuestionpooldashboardComponent } from './questionpooldashboard/question
   //  PopupModule.forRoot(),
   BrowserAnimationsModule,
   ReactiveFormsModule,
-  HttpModule
+  HttpModule,
+  NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [AuthorizationService, DynamoDBService, CandidateServiceModule],
   bootstrap: [AppComponent]

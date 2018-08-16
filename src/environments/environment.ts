@@ -11,7 +11,7 @@ export const environment = {
   userPoolId: 'us-east-2_WRskRqbUk',
   clientId: '4kougipo3aqbguoflh2l6b598',
   ddb_CandidateLoginDetail_Tbl: 'CandiateLoginDetails',
-  ddb_JavaQuesPool_Tbl: 'Java_Question_Pool',
+  ddb_JavaQuesPool_Tbl: 'Question_Pool',
   dynamodb_endpoint: '',
   ddb_technology_Tbl:'Technology'
 

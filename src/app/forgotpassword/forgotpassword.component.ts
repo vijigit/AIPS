@@ -3,8 +3,8 @@ import { NgForm } from "@angular/forms";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthorizationService } from "../authorization.service";
-import { AnalyticsConfigurationList } from '../../../node_modules/aws-sdk/clients/s3';
-import { CognitoUser } from 'amazon-cognito-identity-js';
+import Swal from 'sweetalert2'
+
 declare var $: any;
 @Component({
   selector: 'app-forgotpassword',
@@ -39,7 +39,7 @@ export class ForgotpasswordComponent implements OnInit {
       (err) => {
         console.log(err);
         //this.error = "Registration Error has occurred";
-        swal("", err.message, "error")
+        Swal("", err.message, "error")
       }
     );
   }

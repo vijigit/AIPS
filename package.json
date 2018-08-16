@@ -22,11 +22,14 @@
     "@angular/router": "^6.0.3",
     "@ng-bootstrap/ng-bootstrap": "^2.2.0",
     "amazon-cognito-identity-js": "^1.20.0",
+    "angular2-uuid": "^1.1.1",
     "core-js": "^2.5.4",
+    "guid-typescript": "^1.0.7",
     "json2typescript": "^1.0.6",
+    "ng-multiselect-dropdown": "^0.2.0",
     "ng2-opd-popup": "^1.1.21",
     "rxjs": "^6.0.0",
-    "sweetalert": "^2.1.0",
+    "sweetalert2": "^7.26.11",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

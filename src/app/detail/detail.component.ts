@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs'
-import swal from 'sweetalert'
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-detail',
@@ -19,18 +19,7 @@ export class DetailComponent implements OnInit {
 
   ngOnInit() {
     this.data.getUser(this.user).subscribe(data => this.user = data);
-    swal({
-      title: "Are you sure?",
-      text: "Are you sure that you want to leave this page?",
-      icon: "warning",
-      dangerMode: true,
-    })
-      .then(willDelete => {
-        if (willDelete) {
-          swal("Deleted!", "Your imaginary file has been deleted!", "success");
-        }
-      });
-
+    
   }
 
 }

@@ -3,9 +3,11 @@ import { DynamoDBService } from '../sharedServices/dynamoDbService';
 import { AuthorizationService } from '../authorization.service';
 import { Techitems } from '../Techitems';
 import { Technology } from '../Technology';
-import { JsonConvert } from 'json2typescript';
+import { JsonConvert, ValueCheckingMode } from 'json2typescript';
 import { Questions } from '../questions';
 import { Item } from '../item';
+import Swal from 'sweetalert2';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-questionpooldashboard',
@@ -16,26 +18,26 @@ export class QuestionpooldashboardComponent implements OnInit {
 
   items: Techitems[] = [];
   questionItems: Item[] = [];
+  currentUrl: string;
 
   constructor(private ddb: DynamoDBService, private auth: AuthorizationService) {
-    this.getAllTechnologies()
   }
 
   ngOnInit() {
+    this.getAllTechnologies()
   }
 
   getAllTechnologies() {
     this.ddb.getTechnologies().subscribe((data) => {
 
       let jsonObj: object = JSON.parse(JSON.stringify(data));
-      console.log(JSON.stringify(data))
       let jsonConvert: JsonConvert = new JsonConvert();
       let questions: Technology = jsonConvert.deserializeObject(jsonObj, Technology);
       for (let items of questions.items) {
         this.items.push(items);
       }
     }, (err) => {
-      swal("", err.message, "error")
+      Swal("", err.message, "error")
     });
 
   }
@@ -43,19 +45,18 @@ export class QuestionpooldashboardComponent implements OnInit {
   display(technology: string) {
     this.questionItems = [];
 
-    this.ddb.getQuestions(technology.toUpperCase()).subscribe((data) => {
+    this.ddb.getQuestions(technology).subscribe((data) => {
       let jsonObj: object = JSON.parse(JSON.stringify(data));
-      console.log(JSON.stringify(data))
       let jsonConvert: JsonConvert = new JsonConvert();
       let questions: Questions = jsonConvert.deserializeObject(jsonObj, Questions);
       if (questions.items.length == 0) {
-        swal("No Questions available for " + technology, "Please add questions", "warning");
+        Swal("No Questions available for " + technology, "Please add questions", "warning");
       }
       for (let items of questions.items) {
         this.questionItems.push(items);
       }
     }, (err) => {
-      swal("", err.message, "error")
+      Swal("", err.message, "error")
     });
 
   }

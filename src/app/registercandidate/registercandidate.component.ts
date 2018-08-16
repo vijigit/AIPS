@@ -3,6 +3,12 @@ import { Router, NavigationEnd } from '@angular/router';
 import { AuthorizationService } from "../authorization.service";
 import { FormBuilder, FormGroup, Validators, NgForm } from "@angular/forms";
 import { DynamoDBService } from '../sharedServices/dynamoDbService'
+import { Technology } from '../Technology';
+import { JsonConvert, ValueCheckingMode } from 'json2typescript';
+import { Questions } from '../questions';
+import { Item } from '../item';
+import Swal from 'sweetalert2';
+import { Techitems } from '../Techitems';
 
 @Component({
   selector: 'app-registercandidate',
@@ -13,11 +19,12 @@ export class RegistercandidateComponent implements OnInit {
 
 
   candidateRegisterForm: FormGroup;
-  technologies: any[];
+  technologies: Techitems[];
+  items: Techitems[] = [];
 
   constructor(private router: Router, private auth: AuthorizationService, private formBuilder: FormBuilder,
     public ddb: DynamoDBService) {
-    this.technologies = ["JAVA"];
+
   }
 
   ngOnInit() {
@@ -28,8 +35,24 @@ export class RegistercandidateComponent implements OnInit {
       candidateEmail: ['', Validators.required],
       candidateName: ['', Validators.required]
     });
+     this.getAllTechnologies()
   }
 
+  
+  getAllTechnologies() {
+    this.ddb.getTechnologies().subscribe((data) => {
+
+      let jsonObj: object = JSON.parse(JSON.stringify(data));
+      let jsonConvert: JsonConvert = new JsonConvert();
+      let questions: Technology = jsonConvert.deserializeObject(jsonObj, Technology);
+      for (let items of questions.items) {
+        this.items.push(items);
+      }
+    }, (err) => {
+      Swal("", err.message, "error")
+    });
+
+  }
   registerCandidate(form: NgForm) {
 
     const email = form.value.candidateEmail;
@@ -38,6 +61,10 @@ export class RegistercandidateComponent implements OnInit {
 
     this.ddb.writeLogEntry(email, "" + secretCode, candidateName);
 
+
+  }
+
+  selectValue(selectedValue : string) {
 
   }
 

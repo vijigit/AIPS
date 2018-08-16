@@ -5,13 +5,15 @@ import * as DynamoDB from "aws-sdk/clients/dynamodb";
 import { AuthorizationService } from "../authorization.service";
 import { CandidateServiceModule } from '../candidate-service/candidate-service.module';
 import { Observable } from 'rxjs';
-
+import Swal from 'sweetalert2';
+import { UUID } from 'angular2-uuid';
+import { Item } from "../item";
 
 @Injectable()
 export class DynamoDBService {
 
-    constructor(private auth: AuthorizationService, private candidateService : CandidateServiceModule) {
-        console.log("DynamoDBService: constructor");
+    constructor(private auth: AuthorizationService, private candidateService: CandidateServiceModule) {
+
     }
 
 
@@ -20,7 +22,7 @@ export class DynamoDBService {
         try {
             let date = new Date().toString();
             this.writeToCandidateLoginTbl(email, secretCode, date, name);
-            swal("", "Candidate registered successfully!!", "success");
+           
         } catch (exc) {
             console.log("DynamoDBService: Couldn't write to DDB");
         }
@@ -47,12 +49,16 @@ export class DynamoDBService {
             }
         };
 
-        DDB.put(itemParams, function (result) {
-            console.log("DynamoDBService: wrote entry");
+        DDB.put(itemParams, function (err, result) {
+            if(err) {  Swal("", "Failed to register Candidate", "error"); }
+            else {  
+                Swal("", "Candidate registered successfully!!", "success");
+                console.log("DynamoDBService: wrote entry"); 
+                    }
         });
     }
 
-    getDataFromCandidateLoginTbl(email: string, secretCode: string) : Promise<any> {
+    getDataFromCandidateLoginTbl(email: string, secretCode: string): Promise<any> {
 
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
             IdentityPoolId: environment.identityPoolId
@@ -73,7 +79,7 @@ export class DynamoDBService {
             DDB.get(params, function (err, data) {
                 if (err) {
                     console.log(err);
-                    swal("", "Your secret code is wrong or you are not registered by admin", "error")
+                    Swal("", "Your secret code is wrong or you are not registered by admin", "error")
                     reject(err);
                 } else {
                     if (data.Item) {
@@ -81,47 +87,18 @@ export class DynamoDBService {
                             //this.candidateService.setcandidateName(data.Item.CandidateName);
                             resolve();
                         } else {
-                            swal("", "Your secret code is wrong!!", "error")
+                            Swal("", "Your secret code is wrong!!", "error")
                             reject(err);
                         }
                     } else {
-                        swal("", "You are not registered by admin", "error")
+                        Swal("", "You are not registered by admin", "error")
                         reject(err);
                     }
                 }
             });
 
-            
+
         });
-    }
-
-
-    getDataFromJavaQuestionPool() {
-
-        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-            IdentityPoolId: environment.identityPoolId
-        })
-        AWS.config.update({ region: environment.region });
-
-        var DDB = new AWS.DynamoDB.DocumentClient();
-
-        var params = {
-            TableName: environment.ddb_JavaQuesPool_Tbl,
-            ProjectionExpression: 'Question, Option1, Option2, Option3, Option4'
-        };
-
-
-        return Observable.create(observer => {
-            DDB.scan(params, function (err, data) {
-              if (err) {
-                console.log(err);
-                observer.error(err);
-              }
-                observer.next(data);
-                observer.complete();
-
-            });
-          });
     }
 
     getTechnologies() {
@@ -141,19 +118,19 @@ export class DynamoDBService {
 
         return Observable.create(observer => {
             DDB.scan(params, function (err, data) {
-              if (err) {
-                console.log(err);
-                observer.error(err);
-              }
+                if (err) {
+                    console.log(err);
+                    observer.error(err);
+                }
                 observer.next(data);
                 observer.complete();
 
             });
-          });
+        });
     }
 
 
-    getQuestions(technology : string) {
+    getQuestions(technology: string) {
 
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
             IdentityPoolId: environment.identityPoolId
@@ -161,32 +138,88 @@ export class DynamoDBService {
         AWS.config.update({ region: environment.region });
 
         var DDB = new AWS.DynamoDB.DocumentClient();
-        console.log(technology);
-
         var params = {
             TableName: environment.ddb_JavaQuesPool_Tbl,
-            ExpressionAttributeNames:{
+            ExpressionAttributeNames: {
                 "#tech": "Technology"
             },
             ExpressionAttributeValues: {
                 ":tech_name": technology
-            },            
-            ProjectionExpression: 'Question, Option1, Option2, Option3, Option4',
+            },
+            ProjectionExpression: 'Question, Option1, Option2, Option3, Option4, Answer, Technology',
             FilterExpression: "#tech = :tech_name",
         };
 
 
         return Observable.create(observer => {
             DDB.scan(params, function (err, data) {
-              if (err) {
-                console.log(err);
-                observer.error(err);
-              }
+                console.log(data);
+                if (err) {
+                    console.log(err);
+                    observer.error(err);
+                }
                 observer.next(data);
                 observer.complete();
 
             });
-          });
+        });
+    }
+
+    writeToTechnologyTbl(tech_name: string): void {
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+
+        var itemParams =
+        {
+            TableName: environment.ddb_technology_Tbl,
+            Item: {
+                Technology_name: tech_name
+            }
+        };
+
+        DDB.put(itemParams, function (result) {
+            console.log("DynamoDBService: wrote entry");
+        });
+    }
+
+    writeQuestionsIntoQuestionPool(item: Item) {
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+        let questionID =UUID.UUID();
+        console.log(UUID);
+
+        var itemParams =
+        {
+            TableName: environment.ddb_JavaQuesPool_Tbl,
+            Item: {
+                Technology: item.techName,
+                Question: item.question,
+                Option1: item.option1,
+                Option2: item.option2,
+                Option3: item.option3,
+                Option4: item.option4,
+                Answer: item.answer,
+                QID: questionID
+            }
+        };
+
+        DDB.put(itemParams, function (err, result) {
+            if (err) {
+                console.log(err);
+                Swal("", "Question not saved!!", "error");
+            }
+        });
+
     }
 
 }
