@@ -1,5 +1,43 @@
-<div class="limiter">
-  <div class="container-login100">
-<h3>Welcome, {{user}}</h3>
+<div id="containter" class="container-dashboard">
+  <div style="margin-left: 10%">
+    <h3 style="color : white">Welcome, {{candidateName}}</h3>
+    <h3  style="color: white;  margin-left: 900px">
+    <countdown [config]="timerConfig" (start)="onStart()" (finished)="onFinished()" (notify)="onNotify($event)">$!h!:$!m!:$!s!</countdown>
+    </h3>
+    <ul style="
+      margin-bottom: 10%;">
+      <li *ngFor="let items of questionItems  | paginate: { itemsPerPage: 1, currentPage: p } let i = index ;">
+        <div class='dashbord-centre'>
+          <span class="questions-disp">
+            <label style="color: red ; display: inline;">Question : </label>
+            <br /><br />
+            {{items.question}}
+            <br /><br />
+            <label style="color: red ; display: inline;">Options : </label>
+            <br /><br />
+            <label class="container">
+              <input type="radio" name="radio"> {{items.option1}}
+              <span class="checkmark"></span>
+            </label>
+            <label class="container">
+              <input type="radio" name="radio"> {{items.option2}}
+              <span class="checkmark"></span>
+            </label>
+            <label class="container">
+              <input type="radio" name="radio">{{items.option3}}
+              <span class="checkmark"></span>
+            </label>
+            <label class="container">
+              <input type="radio" name="radio">{{items.option4}}
+              <span class="checkmark"></span>
+            </label>
+            <br />
+            <br />
+          </span>
+        </div>
+      </li>
+      </ul>
+      <pagination-controls class="my-pagination" (pageChange)="p = $event"></pagination-controls>
   </div>
+
 </div>

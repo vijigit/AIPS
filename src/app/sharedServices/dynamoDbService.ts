@@ -1,35 +1,20 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../environments/environment";
 import * as AWS from "aws-sdk";
-import * as DynamoDB from "aws-sdk/clients/dynamodb";
-import { AuthorizationService } from "../authorization.service";
-import { CandidateServiceModule } from '../candidate-service/candidate-service.module';
 import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import { UUID } from 'angular2-uuid';
-import { Item } from "../item";
+import { Item } from "../sharedServices/item";
+import { Technologiesweightage } from '../sharedServices/technologiesweightage'
 
 @Injectable()
 export class DynamoDBService {
 
-    constructor(private auth: AuthorizationService, private candidateService: CandidateServiceModule) {
+    constructor() {
 
     }
 
-
-
-    writeLogEntry(email: string, secretCode: string, name: string) {
-        try {
-            let date = new Date().toString();
-            this.writeToCandidateLoginTbl(email, secretCode, date, name);
-           
-        } catch (exc) {
-            console.log("DynamoDBService: Couldn't write to DDB");
-        }
-
-    }
-
-    writeToCandidateLoginTbl(email: string, secretCode: string, date: string, name: string): void {
+    writeToCandidateLoginTbl(email: string, secretCode: string, date: string, name: string, tech: Technologiesweightage[]): Promise<any> {
 
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
             IdentityPoolId: environment.identityPoolId
@@ -45,16 +30,22 @@ export class DynamoDBService {
                 Email: email,
                 SecretCode: secretCode,
                 Date: date,
-                CandidateName: name
+                CandidateName: name,
+                Technologies: tech
             }
         };
 
-        DDB.put(itemParams, function (err, result) {
-            if(err) {  Swal("", "Failed to register Candidate", "error"); }
-            else {  
-                Swal("", "Candidate registered successfully!!", "success");
-                console.log("DynamoDBService: wrote entry"); 
-                    }
+        return new Promise((resolve, reject) => {
+            DDB.put(itemParams, function (err) {
+                if (err) {
+                    Swal("", "Failed to register Candidate", "error");
+                    reject(err);
+                }
+                else {
+                    Swal("", "Candidate registered successfully!!", "success");
+                    resolve();
+                }
+            });
         });
     }
 
@@ -72,7 +63,7 @@ export class DynamoDBService {
             Key: {
                 Email: email
             },
-            ProjectionExpression: 'SecretCode, CandidateName'
+            ProjectionExpression: 'SecretCode, CandidateName, Technologies'
         };
 
         return new Promise((resolve, reject) => {
@@ -153,9 +144,7 @@ export class DynamoDBService {
 
         return Observable.create(observer => {
             DDB.scan(params, function (err, data) {
-                console.log(data);
                 if (err) {
-                    console.log(err);
                     observer.error(err);
                 }
                 observer.next(data);
@@ -182,7 +171,7 @@ export class DynamoDBService {
             }
         };
 
-        DDB.put(itemParams, function (result) {
+        DDB.put(itemParams, function () {
             console.log("DynamoDBService: wrote entry");
         });
     }
@@ -195,7 +184,7 @@ export class DynamoDBService {
         AWS.config.update({ region: environment.region });
 
         var DDB = new AWS.DynamoDB.DocumentClient();
-        let questionID =UUID.UUID();
+        let questionID = UUID.UUID();
         console.log(UUID);
 
         var itemParams =
@@ -213,7 +202,7 @@ export class DynamoDBService {
             }
         };
 
-        DDB.put(itemParams, function (err, result) {
+        DDB.put(itemParams, function (err) {
             if (err) {
                 console.log(err);
                 Swal("", "Question not saved!!", "error");
@@ -221,6 +210,156 @@ export class DynamoDBService {
         });
 
     }
+
+
+    getCandidateDetail(email: string) {
+        console.log(email)
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+
+        var params = {
+            TableName: environment.ddb_CandidateLoginDetail_Tbl,
+            Key: {
+                Email: email
+            },
+            ProjectionExpression: 'SecretCode, CandidateName, Technologies'
+        };
+
+        return Observable.create(observer => {
+            DDB.get(params, function (err, data) {
+                if (err) {
+                    observer.error(err);
+                }
+                observer.next(data);
+                observer.complete();
+            });
+        });
+    }
+
+    writeIntoCriteriaTbl(email: string, name: string, noOfQuestion: string, duration: {hour : number, minute : number}, questionType: string, tech: Technologiesweightage[]): Promise<any> {
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+
+        var itemParams =
+        {
+            TableName: environment.ddb_CandidateCriteria_Tbl,
+            Item: {
+                email: email,
+                NoOfQuestion: noOfQuestion,
+                TestDuration: duration,
+                QuestionType: questionType,
+                CandidateName: name,
+                Technologies: tech
+            }
+        };
+
+        return new Promise((resolve, reject) => {
+            DDB.put(itemParams, function (err) {
+                if (err) {
+                    console.log(err);
+                    Swal("", "Failed to register Candidate Criteria", "error");
+                    reject(err);
+                }
+                else {
+                    Swal("", "Candidate Criteria updated successfully!!", "success");
+                    resolve();
+                }
+            });
+        });
+    }
+
+    writeIntoCandidateQuestionTbl(email : string, question: string): void {
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+
+        var itemParams =
+        {
+            TableName: environment.ddb_CandidateQuestions_Tbl,
+            Item: {
+                Questions: question,
+                Email : email
+            }
+        };
+
+        DDB.put(itemParams, function (err) {
+
+            if(err) {
+                console.log(err);
+            }
+            console.log("DynamoDBService: wrote entry");
+        });
+    }
+
+    getDetailsFromCandidateCriteriaTbl(email : string) {
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+
+        var params = {
+            TableName: environment.ddb_CandidateCriteria_Tbl,
+            Key: {
+                email: email
+            },
+            ProjectionExpression: 'CandidateName, Technologies, TestDuration'
+        };
+
+        return Observable.create(observer => {
+            DDB.get(params, function (err, data) {
+                if (err) {
+                    observer.error(err);
+                }
+                observer.next(data);
+                observer.complete();
+            });
+        });
+    }
+
+    getQuestionsForCandidate(email : string) {
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+
+        var params = {
+            TableName: environment.ddb_CandidateQuestions_Tbl,
+            Key: {
+                Email: email
+            },
+            ProjectionExpression: 'Questions'
+        };
+
+        return Observable.create(observer => {
+            DDB.scan(params, function (err, data) {
+                if (err) {
+                    observer.error(err);
+                }
+                console.log("data :" + email)
+                observer.next(data);
+                observer.complete();
+            });
+        });
+    }
+
 
 }
 

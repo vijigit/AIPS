@@ -1,10 +1,9 @@
-<div class="limiter">    
-    <div class="container-login100">         
-      <span class="welcome-title">
-          <img  src="assets/images/icons/Ericsson.png" align= "left" width="100" height="60">
-        Welcome to AIPS
-      </span>       
-    <div class="wrap-login100"> 
+<div class="limiter">
+  <div class="container-login100">
+    <span class="welcome-title">
+      <img src="assets/images/icons/Ericsson.png" align="left" width="100" height="60"> Welcome to AIPS
+    </span>
+    <div class="wrap-login100">
       <div class="login100-pic tilt pic">
         <img src="assets/interview.png" alt="IMG">
       </div>
@@ -19,9 +18,6 @@
           <span class="symbol-input100">
             <i class="material-icons">email</i>
           </span>
-          <div *ngIf="submitted && loginForm.controls.email.errors" class="error">
-            <div *ngIf="loginForm.controls.email.errors.required">Email is required</div>
-          </div>
         </div>
 
         <div class="wrap-input100 form-group">
@@ -30,17 +26,12 @@
           <span class="symbol-input100">
             <i class="material-icons">lock</i>
           </span>
-          <div *ngIf="submitted && loginForm.controls.password.errors" class="error">
-            <div *ngIf="loginForm.controls.password.errors.required">Password is required</div>
-          </div>
         </div>
-        
         <div>
-          <button class="login100-form-btn btn btn-default">
-            Login
+          <button class="login100-form-btn btn btn-default"> Login
+            
           </button>
         </div>
-
         <div class="text-center p-t-12">
           <span class="txt1">
             Forgot
@@ -57,14 +48,14 @@
           </a>
         </div>
         <div class="text-center">
-            <a class="txt2" routerLink="register">
-              Already Registered? Click here to Verify...
-              <i class="material-icons md-24">arrow_right_alt</i>
-            </a>
-          </div>      
+          <a class="txt2" routerLink="register">
+            Already Registered? Click here to Verify...
+            <i class="material-icons md-24">arrow_right_alt</i>
+          </a>
+        </div>
       </form>
-     
-    </div>    
+
+    </div>
   </div>
   <p align="right">v0.0.0</p>
 </div>

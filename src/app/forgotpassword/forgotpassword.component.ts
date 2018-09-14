@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { AuthorizationService } from "../authorization.service";
+import { AuthorizationService } from "../sharedServices/authorization.service";
 import Swal from 'sweetalert2'
 
 declare var $: any;

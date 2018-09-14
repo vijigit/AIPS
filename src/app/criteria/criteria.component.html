@@ -1,0 +1,99 @@
+<div id="containter" class="container-dashboard">
+  <app-header></app-header>
+  <div class='criteria-centre'>
+    <h4 style="margin-left:38%; color: green">Candidate Detail</h4><br /><br />
+    <table style="width:100%">
+      <tr>
+        <td>
+          <p style="color:#4657CF">Candidate Name</p>
+        </td>
+        <td>:</td>
+        <td>
+          <p>{{canidateName}}</p>
+        </td>
+        <td>
+          <p style="color:#4657CF">Candidate Email</p>
+        </td>
+        <td>:</td>
+        <td>
+          <p>{{candidateEmail}}</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p style="color:#4657CF">Secret Code</p>
+        </td>
+        <td>:</td>
+        <td>
+          <p>{{secretCode}}</p>
+        </td>
+        <td>
+          <p style="color:#4657CF">Technologies Selected</p>
+        </td>
+        <td>:</td>
+        <td>
+          <p>{{selectedTechnologies}}</p>
+        </td>
+      </tr>
+    </table>
+    <br />
+    <hr />
+  </div>
+  <div class='criteria-centre'>
+    <form [formGroup]="criteriaForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <mat-tab-group>
+        <mat-tab label="Question & Duration">
+          <div style="padding-top: 25px">
+            <table style="width:100%">
+              <tr style="padding-top: 2px">
+                <td>
+                  <p>No of Question</p>
+                </td>
+                <td>
+                  <input matInput type="number" formControlName="noOfQuestion" />
+                </td>
+              </tr>
+              <tr style="padding-top: 2px">
+                <td>
+                  <p> Select Exam Duration </p>
+                </td>
+                <td>
+                  <ngb-timepicker [(ngModel)]="time" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </mat-tab>
+        <mat-tab label="Weightage">
+          <div style="padding-top: 25px">
+            <table style="width:100%">
+              <tr *ngFor="let items of technologyWeightage; trackBy : trackByCandidate" style="padding-top: 2px">
+                <td>
+                  <p>{{items._techname}}</p>
+                </td>
+                <td>
+                  <mat-slider thumbLabel [displayWith]="formatLabel" (change)="getWeightage(items, items.weightage)"
+                    tickInterval="1" min="1" max="10" [(ngModel)]="items.weightage" [ngModelOptions]="{standalone: true}"></mat-slider>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </mat-tab>
+        <mat-tab label="Question Pattern">
+          <div style="padding-top: 25px">
+            <mat-radio-group class="radio-group" [(ngModel)]="questions" [ngModelOptions]="{standalone: true}">
+              <mat-radio-button class="radio-button" *ngFor="let type of questionType" [value]="type">
+                <p>{{type}}</p>
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </mat-tab>
+        <mat-tab label="Submit">
+          <div style="padding-top: 25px; padding-left: 350px">
+            <button mat-raised-button color="primary" style="padding-top: 2px">Submit</button>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </form>
+  </div>
+</div>

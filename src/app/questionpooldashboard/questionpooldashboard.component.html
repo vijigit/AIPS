@@ -2,29 +2,50 @@
   <div style="margin-left: 10%">
     <app-header></app-header>
     <div>
-      <div class="sidenav">
+      <div class="sidenav image">
         <ul>
           <li *ngFor="let item of items">
             <a href="javascript:void(0)" (click)="display(item.techname)">{{item.techname}}</a>
           </li>
         </ul>
       </div>
-      <ul>
-          <li *ngFor="let item of questionItems let i = index">
-            <div class='dashbord-centre'>
-              <font color="red">Question : {{i+1}}</font>
+
+      <div *ngIf="IsTechnologyClicked">
+
+        <!--div class="wrap-input100" *ngIf="IsTechnologyClicked">
+        <input class="center" placeholder="Search Question..." type="text" [(ngModel)]="term">
+        <span class="focus-input100"></span>
+        <span class="symbol-input100" style="margin-left:8%">
+          <i class="material-icons">search</i>
+        </span>
+      </div>-->
+        <ul style="margin-bottom: 10%;">
+        <li *ngFor="let q of ques | paginate: { itemsPerPage: 2, currentPage: p } let i = index ; trackBy : trackByQuestions"  class=SelectQuestions>
+          <div class='dashbord-centre'>
+              <label class="label" style="margin-left: 90%; display: inline;">
+                  <input  class="label__checkbox" type="checkbox" name="addQues" value="addQuestion" (change)="addQues(q,$event)" [checked]="q.addQuestion"/>
+                  <span class="label__text">
+                    <span class="label__check">
+                      <i class="fa fa-check icon"></i>
+                    </span>
+                  </span>
+                  </label>
+                
+            
+            <br/>
+            <br/>
+            <span class="questions-disp">
+              <label style="color: red ; display: inline;">Question : {{q.id }}</label><br/><br/> {{q.item.question}}
               <br/>
               <br/>
-              <span class="questions-disp">
-                {{item.question}}
-                <br/>
-                <br/>
-        
-              </span>
-            </div>
-          </li>
-        </ul>
+            </span>
+          </div>
+        </li>
+      </ul>
+      <pagination-controls  *ngIf="IsTechnologyClicked" class="my-pagination" (pageChange)="p = $event"></pagination-controls>
+       
+
     </div>
+
   </div>
 </div>
-

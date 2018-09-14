@@ -13,6 +13,8 @@ import { CandidateloginComponent } from './candidatelogin/candidatelogin.compone
 import { CandidatedashboardComponent } from './candidatedashboard/candidatedashboard.component';
 import { QuestionpooldashboardComponent } from './questionpooldashboard/questionpooldashboard.component';
 import { AddquestionsComponent } from './addquestions/addquestions.component';
+import { SelectQuestionComponent } from './select-question/select-question.component';
+import { CriteriaComponent } from './criteria/criteria.component';
 
 
 const routes: Routes = [
@@ -68,6 +70,14 @@ const routes: Routes = [
   {
     path: 'users-dashboard/add-questions',
     component: AddquestionsComponent
+  },
+  {
+    path: 'select-questions',
+    component: SelectQuestionComponent
+  },
+  {
+    path: 'criteria/:candidateemail',
+    component: CriteriaComponent
   }
 ];
 

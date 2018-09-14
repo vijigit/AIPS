@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../data.service';
+import { DataService } from '../sharedServices/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs'
 import Swal from 'sweetalert2'

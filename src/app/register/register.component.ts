@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {NgForm} from "@angular/forms";
-import {AuthorizationService} from "../authorization.service";
+import {AuthorizationService} from "../sharedServices/authorization.service";
 import { Router } from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import Swal from 'sweetalert2'

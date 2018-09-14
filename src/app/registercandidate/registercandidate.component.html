@@ -24,36 +24,20 @@
         </span>
       </div>
 
-      <div class="wrap-input100 form-group">
-       <!-- <select multiple class="input100 form-control" style="height: 201px;" (change)="selectValue($event.target.value)">
-         
-          <option *ngFor="let technology of items" value={{technology.techname}}>
-            {{technology.techname}}
-          </option>
-        </select> -->
+      <mat-form-field>
+        <mat-select placeholder="select technologies" [formControl]="technologyName" multiple>
+          <mat-option *ngFor="let technology of technologyItems" [value]="technology">{{technology}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-        <!--ng-multiselect-dropdown
-  [Select technology]="'custom placeholder'"
-  [items]=  {{ items }}
-  [(ngModel)]="selectedItems"
-  [settings]="dropdownSettings"
-  (onSelect)="onItemSelect($event)"
-  (onSelectAll)="onSelectAll($event)"
->
-</ng-multiselect-dropdown-->
 
-        <span class="focus-input100"></span>
-        
-      </div>
-
-      <div>
+      <div style="padding-top: 25%">
         <button class="login100-form-btn btn btn-default">
-          Register Candidate
+          Select Questions ->
         </button>
       </div>
-
-
     </form>
+
     <div style="float: right;">
       <span>
         <a routerLink="/users-dashboard">Back to Dashboard</a>
@@ -63,12 +47,7 @@
       </span>
 
     </div>
-  </div>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
+  </div><br/> <br/><br/><br/>
+
   <app-footer></app-footer>
 </div>

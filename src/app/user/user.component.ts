@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../data.service';
+import { DataService } from '../sharedServices/data.service';
 import { Observable } from 'rxjs';
 import { trigger,style,transition,animate,keyframes,query,stagger } from '@angular/animations';
 

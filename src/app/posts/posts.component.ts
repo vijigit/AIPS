@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../data.service';
+import { DataService } from '../sharedServices/data.service';
 import {Observable } from 'rxjs';
 import {ActivatedRoute } from '@angular/router' ;
 //import { Popup } from 'ng2-opd-popup';

@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { AuthorizationService } from "../authorization.service";
-import { FormBuilder, FormGroup, Validators, NgForm } from "@angular/forms";
+import { Router } from '@angular/router';
+import { AuthorizationService } from "../sharedServices/authorization.service";
+import { FormBuilder, FormGroup, Validators, NgForm, FormControl } from "@angular/forms";
 import { DynamoDBService } from '../sharedServices/dynamoDbService'
-import { Technology } from '../Technology';
-import { JsonConvert, ValueCheckingMode } from 'json2typescript';
-import { Questions } from '../questions';
-import { Item } from '../item';
+import { Technology } from '../sharedServices/Technology';
+import { JsonConvert } from 'json2typescript';
 import Swal from 'sweetalert2';
-import { Techitems } from '../Techitems';
+import { Technologiesweightage } from '../sharedServices/technologiesweightage';
+
 
 @Component({
   selector: 'app-registercandidate',
@@ -19,8 +18,9 @@ export class RegistercandidateComponent implements OnInit {
 
 
   candidateRegisterForm: FormGroup;
-  technologies: Techitems[];
-  items: Techitems[] = [];
+  technologyItems: Array<string> = [];
+  technologyName = new FormControl();
+  
 
   constructor(private router: Router, private auth: AuthorizationService, private formBuilder: FormBuilder,
     public ddb: DynamoDBService) {
@@ -35,18 +35,16 @@ export class RegistercandidateComponent implements OnInit {
       candidateEmail: ['', Validators.required],
       candidateName: ['', Validators.required]
     });
-     this.getAllTechnologies()
+    this.getAllTechnologies();
   }
 
-  
   getAllTechnologies() {
     this.ddb.getTechnologies().subscribe((data) => {
-
       let jsonObj: object = JSON.parse(JSON.stringify(data));
       let jsonConvert: JsonConvert = new JsonConvert();
       let questions: Technology = jsonConvert.deserializeObject(jsonObj, Technology);
       for (let items of questions.items) {
-        this.items.push(items);
+        this.technologyItems.push(items.techname);
       }
     }, (err) => {
       Swal("", err.message, "error")
@@ -58,13 +56,19 @@ export class RegistercandidateComponent implements OnInit {
     const email = form.value.candidateEmail;
     const secretCode = Math.floor(100000 + Math.random() * 900000);
     const candidateName = form.value.candidateName;
+    let date = new Date().toString();
+    let technologiesWeightage: Technologiesweightage[] = [];
+    this.technologyName.value.forEach(function (value: string) {
+      technologiesWeightage.push(new Technologiesweightage(value, 10));
+    })
+    if (this.technologyName.value.length == 0) {
+      Swal("", "Any one technnology must be selected", "error");
+    } else {
+      this.ddb.writeToCandidateLoginTbl(email, "" + secretCode, date, candidateName, technologiesWeightage)
+        .then(() => this.router.navigate(['criteria/' + email]))
+        .catch(() => this.router.navigate(['register-candidate']));
+    }
 
-    this.ddb.writeLogEntry(email, "" + secretCode, candidateName);
-
-
-  }
-
-  selectValue(selectedValue : string) {
 
   }
 

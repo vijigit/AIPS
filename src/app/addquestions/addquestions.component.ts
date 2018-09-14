@@ -1,15 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { AuthorizationService } from "../authorization.service";
-import { FormBuilder, FormGroup, Validators, NgForm } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
 import { DynamoDBService } from '../sharedServices/dynamoDbService';
-import { Techitems } from '../Techitems';
-import { Technology } from '../Technology';
+import { Techitems } from '../sharedServices/Techitems';
+import { Technology } from '../sharedServices/Technology';
 import { JsonConvert } from 'json2typescript';
 import Swal from 'sweetalert2';
-import { Questions } from '../questions';
-import { Item } from '../item';
-import { Observable } from 'rxjs';
+import { Item } from '../sharedServices/item';
 
 @Component({
   selector: 'app-addquestions',
@@ -23,8 +18,7 @@ export class AddquestionsComponent implements OnInit {
   selectedTechnology: string = "";
   newQuest: Array<string> = [];
 
-  constructor(private router: Router, private auth: AuthorizationService, private formBuilder: FormBuilder,
-    public ddb: DynamoDBService) {
+  constructor(public ddb: DynamoDBService) {
 
   }
 
@@ -86,7 +80,6 @@ export class AddquestionsComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.selectedTechnology = result.value;
-        const values = [];
         Swal.mixin({
           input: 'text',
           confirmButtonText: 'Next &rarr;',
@@ -135,19 +128,6 @@ export class AddquestionsComponent implements OnInit {
   }
 
   writeIntoQuestionPool(questionItem: Array<string>) {
-
-    let item = new Item();
-    item.question = questionItem[0];
-    item.option1 = questionItem[1];
-    item.option2 = questionItem[2];
-    item.option3 = questionItem[3];
-    item.option4 = questionItem[4];
-    item.answer = questionItem[5];
-    item.techName = this.selectedTechnology;
-
-    this.ddb.writeQuestionsIntoQuestionPool(item);
-
-
-
+    this.ddb.writeQuestionsIntoQuestionPool(new Item(questionItem[0], questionItem[1], questionItem[2], questionItem[3], questionItem[4], questionItem[5], this.selectedTechnology));
   }
 }
