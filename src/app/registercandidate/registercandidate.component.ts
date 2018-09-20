@@ -67,6 +67,7 @@ export class RegistercandidateComponent implements OnInit {
       this.ddb.writeToCandidateLoginTbl(email, "" + secretCode, date, candidateName, technologiesWeightage)
         .then(() => this.router.navigate(['criteria/' + email]))
         .catch(() => this.router.navigate(['register-candidate']));
+      this.ddb.updateRegisterCandidateFlag(email, 'REGISTERD CANDIDATE');
     }
 
 

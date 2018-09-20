@@ -15,7 +15,8 @@ export const environment = {
   ddb_CandidateQuestions_Tbl: 'Candidate_Questions',
   ddb_JavaQuesPool_Tbl: 'Question_Pool',
   dynamodb_endpoint: '',
-  ddb_technology_Tbl: 'Technology'
+  ddb_technology_Tbl: 'Technology',
+  db_CandidateTestDetail_Tb:'CandidateTestDetails'
 
 };
 

@@ -15,6 +15,7 @@ import { QuestionpooldashboardComponent } from './questionpooldashboard/question
 import { AddquestionsComponent } from './addquestions/addquestions.component';
 import { SelectQuestionComponent } from './select-question/select-question.component';
 import { CriteriaComponent } from './criteria/criteria.component';
+import { ResultDashboardComponent } from './result-dashboard/result-dashboard.component';
 
 
 const routes: Routes = [
@@ -78,7 +79,11 @@ const routes: Routes = [
   {
     path: 'criteria/:candidateemail',
     component: CriteriaComponent
-  }
+  },
+  {
+    path: "users-dashboard/testdetail",
+    component: ResultDashboardComponent
+  },
 ];
 
 @NgModule({

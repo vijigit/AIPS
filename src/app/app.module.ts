@@ -35,11 +35,15 @@ import { CriteriaComponent } from './criteria/criteria.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatNativeDateModule, MatSelectModule} from '@angular/material';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatInputModule} from '@angular/material';
+import {MatInputModule, MatButtonModule} from '@angular/material';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatTabsModule} from '@angular/material/tabs';
-import {MatButtonModule} from '@angular/material';
 import { CountdownModule } from 'ngx-countdown';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatStepperModule} from '@angular/material/stepper';
+import { ResultDashboardComponent } from './result-dashboard/result-dashboard.component';
+import {MatTableModule} from '@angular/material/table';
+
 
 @NgModule({
   declarations: [
@@ -60,7 +64,8 @@ import { CountdownModule } from 'ngx-countdown';
     AddquestionsComponent,
     QuestionpooldashboardComponent,
     SelectQuestionComponent,
-    CriteriaComponent
+    CriteriaComponent,
+    ResultDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +86,10 @@ import { CountdownModule } from 'ngx-countdown';
     MatSliderModule,
     MatTabsModule,
     MatButtonModule,
-    CountdownModule
+    CountdownModule,
+    MatProgressSpinnerModule,
+    MatStepperModule,
+    MatTableModule
     ],
   providers: [AuthorizationService, DynamoDBService, CandidateServiceModule],
   bootstrap: [AppComponent]

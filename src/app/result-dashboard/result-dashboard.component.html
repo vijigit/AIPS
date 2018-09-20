@@ -1,0 +1,40 @@
+<div id="containter" class="container-dashboard">
+  <div>
+    <app-header></app-header>
+    <div class='dashbord-centre'>
+      <table style="width:100%">
+        <tr>
+          <th>EMAIL</th>
+          <th>Name</th>
+          <th>Technologies</th>
+          <th>NoOfQuestion</th>
+          <th>TestStatus</th>
+          <th>Duration</th>
+        </tr>
+        <tr>
+        <tr *ngFor="let items of details" style="padding-top: 2px">       
+          <td>
+            <p>{{items.email}}</p>
+          </td>
+          <td>
+            <p>{{items.CandidateName}}</p>
+          </td>
+          <td>
+            <p>{{items.Technologies}}</p>
+          </td>
+          <td>
+            <p>{{items.NoOfQuestion}}</p>
+          </td>
+          <td>
+            <p>{{items.TestStatus}}</p>
+          </td>
+          <td>
+            <p>{{items.TestDuration.hour}}hr {{items.TestDuration.minute}}min</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <br />
+  <app-footer></app-footer>
+</div>

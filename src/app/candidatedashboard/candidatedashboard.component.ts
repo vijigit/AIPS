@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DynamoDBService } from '../sharedServices/dynamoDbService';
 import { JsonConvert } from 'json2typescript';
-import { CandidateQuesJson } from '../sharedServices/canidateQuesJson';
 import { Criteria } from '../sharedServices/criteria';
 import { Questions } from '../sharedServices/questions';
-import { Item } from "../sharedServices/item";
 
 @Component({
   selector: 'app-candidatedashboard',
@@ -17,9 +15,10 @@ export class CandidatedashboardComponent implements OnInit {
   candidateName: string = "";
   user: Object;
   testDuration = {}
-  questionItems : Item[] = [];
+  questionItems: Object[] = [];
   p: number = 1;
   timerConfig = {};
+
 
 
 
@@ -31,7 +30,7 @@ export class CandidatedashboardComponent implements OnInit {
   ngOnInit() {
     console.log(this.user);
     this.getCriteriaDetails(this.user);
-    
+
   }
 
   getCriteriaDetails(user) {
@@ -40,27 +39,23 @@ export class CandidatedashboardComponent implements OnInit {
         let jsonObj: object = JSON.parse(JSON.stringify(data));
         let jsonConvert: JsonConvert = new JsonConvert();
         let criteria: Criteria = jsonConvert.deserializeObject(jsonObj, Criteria);
-        this.candidateName= criteria.Item.CandidateName;
+        this.candidateName = criteria.Item.CandidateName;
         this.testDuration = criteria.Item.testDuration;
         let testDuraitonInSec = (criteria.Item.testDuration.hour * 60 * 60) + (criteria.Item.testDuration.minute * 60) + (criteria.Item.testDuration.second);
         //console.log(testDuraitonInSec);
         this.timerConfig = {
-          leftTime :  testDuraitonInSec
+          leftTime: testDuraitonInSec
         }
 
       });
 
     this.ddb.getQuestionsForCandidate(user).subscribe((questions) => {
-      let jsonObj: object = JSON.parse(JSON.stringify(questions));
-      let jsonConvert: JsonConvert = new JsonConvert();
-      let candidateQues: CandidateQuesJson = jsonConvert.deserializeObject(jsonObj, CandidateQuesJson);
-
+      let quesJson = JSON.parse(JSON.stringify(questions.Items));
+      let quesItems = JSON.parse(JSON.stringify(quesJson[0].Questions))
+      let ques = JSON.parse(quesItems);
+      console.log(ques.Items);
       
-      let quesJsonObj: object = JSON.parse(candidateQues.questions[0].questionItems);
-      let quesJsonConvert: JsonConvert = new JsonConvert();
-      let question : Questions = quesJsonConvert.deserializeObject(quesJsonObj, Questions);
-      this.questionItems = question.items;
-
+      this.questionItems = ques.Items;
     });
 
   }
@@ -71,5 +66,26 @@ export class CandidatedashboardComponent implements OnInit {
 
   onFinished() {
 
+  }
+
+  isNext(index: number) {
+    if (index == 0) {
+      return true
+    }
+    else if (index == this.questionItems.length - 1) {
+      return false;
+    }
+    else {
+      return false;
+    }
+  }
+
+  isPrevious(index: number) {
+    if (index > 0) {
+      return true
+    }
+    else {
+      return false;
+    }
   }
 }

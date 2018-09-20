@@ -1,34 +1,37 @@
 <div id="containter" class="container-dashboard">
   <div style="margin-left: 10%">
     <h3 style="color : white">Welcome, {{candidateName}}</h3>
+    
     <h3  style="color: white;  margin-left: 900px">
     <countdown [config]="timerConfig" (start)="onStart()" (finished)="onFinished()" (notify)="onNotify($event)">$!h!:$!m!:$!s!</countdown>
     </h3>
+    
+ 
     <ul style="
       margin-bottom: 10%;">
-      <li *ngFor="let items of questionItems  | paginate: { itemsPerPage: 1, currentPage: p } let i = index ;">
+      <li *ngFor="let i of questionItems  | paginate: { itemsPerPage: 1, currentPage: p } let i = index ;">
         <div class='dashbord-centre'>
           <span class="questions-disp">
             <label style="color: red ; display: inline;">Question : </label>
             <br /><br />
-            {{items.question}}
+            {{i.Question}}
             <br /><br />
             <label style="color: red ; display: inline;">Options : </label>
             <br /><br />
             <label class="container">
-              <input type="radio" name="radio"> {{items.option1}}
+              <input type="radio" name="radio"> {{i.Option1}}
               <span class="checkmark"></span>
             </label>
             <label class="container">
-              <input type="radio" name="radio"> {{items.option2}}
+              <input type="radio" name="radio"> {{i.Option2}}
               <span class="checkmark"></span>
             </label>
             <label class="container">
-              <input type="radio" name="radio">{{items.option3}}
+              <input type="radio" name="radio">{{i.Option3}}
               <span class="checkmark"></span>
             </label>
             <label class="container">
-              <input type="radio" name="radio">{{items.option4}}
+              <input type="radio" name="radio">{{i.Option4}}
               <span class="checkmark"></span>
             </label>
             <br />

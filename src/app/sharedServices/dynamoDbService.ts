@@ -49,6 +49,102 @@ export class DynamoDBService {
         });
     }
 
+    updateRegisterCandidateFlag(email: string, status: string): Promise<any> {
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+
+        var itemParams =
+        {
+            TableName: environment.db_CandidateTestDetail_Tb,
+            Item: {
+                email: email,
+                TestStatus: status
+            }
+        };
+
+        return new Promise((resolve, reject) => {
+            DDB.put(itemParams, function (err) {
+                if (err) {
+                    //Swal("", "Failed to update CandidateTestDetail", "error");
+                    reject(err);
+                }
+                else {                
+                    resolve();
+                }
+            });
+        });
+    }
+
+    updateRegisterCandidateStatus(email: string, status: string, name: string, noOfQuestion: string, Duration: {hour : number, minute : number}, technologies: String): Promise<any> {
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+
+        var itemParams =
+        {
+            TableName: environment.db_CandidateTestDetail_Tb,
+            Item: {
+                email: email,
+                TestStatus: status,
+                CandidateName: name,
+                NoOfQuestion: noOfQuestion,
+                TestDuration: Duration,
+                Technologies: technologies
+            }
+        };
+
+        return new Promise((resolve, reject) => {
+            DDB.put(itemParams, function (err) {
+                if (err) {
+                    Swal("", "Failed to update CandidateTestDetail", "error");
+                    reject(err);
+                }
+                else {                
+                    resolve();
+                }
+            });
+        });
+    }
+
+    getTestDetails() {
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+
+        var params = {
+            TableName: environment.db_CandidateTestDetail_Tb,
+            ProjectionExpression: 'email, TestStatus, CandidateName, NoOfQuestion, TestDuration, Technologies'
+        };
+
+
+        return Observable.create(observer => {
+            DDB.scan(params, function (err, data) {
+                if (err) {
+                    console.log(err);
+                    observer.error(err);
+                }
+                observer.next(data);
+                observer.complete();
+
+            });
+        });
+    }
+
+   
+
     getDataFromCandidateLoginTbl(email: string, secretCode: string): Promise<any> {
 
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -353,7 +449,6 @@ export class DynamoDBService {
                 if (err) {
                     observer.error(err);
                 }
-                console.log("data :" + email)
                 observer.next(data);
                 observer.complete();
             });

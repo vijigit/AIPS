@@ -111,7 +111,7 @@ export class CriteriaComponent implements OnInit {
       .then(() => this.router.navigate(['register-candidate'])) // need to check
       .catch(() => this.router.navigate(['criteria/' + this.candidateEmail]));
 
-    if (this.questions = "Generate Random Question") {
+    if (this.questions == "Generate Random Question") {
       this.selectedWeightage.forEach(technology => {
         this.ddb.getQuestions(technology.TechName).subscribe((data) => {
           let jsonObj: object = JSON.parse(JSON.stringify(data));
@@ -127,6 +127,7 @@ export class CriteriaComponent implements OnInit {
               let jsonConvert: JsonConvert = new JsonConvert();
               let randomQuestions: Questions = jsonConvert.serializeObject(candidateQuestions);
               this.ddb.writeIntoCandidateQuestionTbl(this.candidateEmail, JSON.stringify(randomQuestions));
+              this.ddb.updateRegisterCandidateStatus(this.candidateEmail, 'TEST CREATED', this.canidateName, noOfQuestion, this.time, this.selectedTechnologies);
             }
             index = index + 1;
           });
@@ -134,7 +135,6 @@ export class CriteriaComponent implements OnInit {
           this.router.navigate(['users-dashboard']);
 
         //  console.log(JSON.stringify(item));
-
         }, (err) => {
           Swal("", err.message, "error");
         });
