@@ -61,6 +61,7 @@ export class CandidatedashboardComponent implements OnInit {
         let quesJson = JSON.parse(JSON.stringify(questions.Item));
         let quesItems = JSON.parse(JSON.stringify(quesJson))
         let ques = JSON.parse(quesItems.Questions);
+        console.log(JSON.stringify(questions.Item));
         this.questionItems = ques.Items;
         this.noOfQuestions = ques.Items.length - 1;
         this.candidateQuestions.push(this.questionItems[this.questionIndex]);
@@ -88,10 +89,12 @@ export class CandidatedashboardComponent implements OnInit {
   }
 
   getNextQuestion() {
-    console.log("getNextQuesiton" + this.questionIndex)
+   // console.log("Questions" + JSON.stringify(this.questionItems));
     this.questionIndex = this.questionIndex + 1;
     this.candidateQuestions = [];
     this.candidateQuestions.push(this.questionItems[this.questionIndex]);
+   // console.log(this.questionIndex)
+    //console.log("candidateQuestions" + JSON.stringify(this.questionItems[this.questionIndex]));
   }
 
   getPrevQuestion() {

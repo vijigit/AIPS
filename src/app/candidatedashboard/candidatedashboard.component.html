@@ -2,23 +2,23 @@
   <div style="margin-left: 10%">
     <h3 style="color : white">Welcome, {{candidateName}}</h3>
     <!--div *ngIf="isDispInstruction">
-        <ng-template #content let-modal>
-            <div class="modal-header">
-              <h4 class="modal-title">Welcome, {{candidateName}}</h4>
-              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>Test............</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-            </div>
-          </ng-template>
-
-          <button class="btn btn-outline-primary mb-2 mr-2" (click)="openLg(content)">Instructions</button>
-    </div>-->
+          <ng-template #content let-modal>
+              <div class="modal-header">
+                <h4 class="modal-title">Welcome, {{candidateName}}</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Test............</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+              </div>
+            </ng-template>
+  
+            <button class="btn btn-outline-primary mb-2 mr-2" (click)="openLg(content)">Instructions</button>
+      </div>-->
 
     <h3 style="color: white;  margin-left: 900px">
       <countdown [config]="timerConfig" (start)="onStart()" (finished)="onFinished()" (notify)="onNotify($event)">$!h!:$!m!:$!s!</countdown>
@@ -26,7 +26,7 @@
 
 
     <ul style="
-      margin-bottom: 10%;">
+        margin-bottom: 10%;">
       <li *ngFor="let q of candidateQuestions; trackBy : trackByQuestions;">
         <div class='dashbord-centre'>
           <span class="questions-disp">
@@ -61,30 +61,39 @@
   </div>
 
   <div class="w3-container">
-    <ng-container *ngIf='questionIndex===0; else previous'>
+    <ng-container *ngIf='noOfQuestions===0; else next'>
       <div class="w3-show-inline-block">
         <div class="w3-bar">
-          <button class="w3-btn w3-black" (click)="getNextQuestion()">Next</button>
+          <button class="w3-btn w3-black" (click)="submitTest()">Submit</button>
         </div>
       </div>
     </ng-container>
-    <ng-template #previous>
-      <ng-container *ngIf='questionIndex===noOfQuestions; else nextAndPrev'>
+    <ng-template #next>
+      <ng-container *ngIf='questionIndex===0; else previous'>
         <div class="w3-show-inline-block">
           <div class="w3-bar">
-            <button class="w3-btn w3-black" (click)="getPrevQuestion()">Previous</button>
-            <button class="w3-btn w3-black" (click)="submitTest()">Submit</button>
+            <button class="w3-btn w3-black" (click)="getNextQuestion()">Next</button>
           </div>
         </div>
       </ng-container>
-    </ng-template>
-    <ng-template #nextAndPrev>
-      <div class="w3-show-inline-block">
-        <div class="w3-bar">
-          <button class="w3-btn w3-black" (click)="getPrevQuestion()">Previous</button>
-          <button class="w3-btn w3-black" (click)="getNextQuestion()">Next</button>
+      <ng-template #previous>
+        <ng-container *ngIf='questionIndex===noOfQuestions; else nextAndPrev'>
+          <div class="w3-show-inline-block">
+            <div class="w3-bar">
+              <button class="w3-btn w3-black" (click)="getPrevQuestion()">Previous</button>
+              <button class="w3-btn w3-black" (click)="submitTest()">Submit</button>
+            </div>
+          </div>
+        </ng-container>
+      </ng-template>
+      <ng-template #nextAndPrev>
+        <div class="w3-show-inline-block">
+          <div class="w3-bar">
+            <button class="w3-btn w3-black" (click)="getPrevQuestion()">Previous</button>
+            <button class="w3-btn w3-black" (click)="getNextQuestion()">Next</button>
+          </div>
         </div>
-      </div>
+      </ng-template>
     </ng-template>
   </div>
 

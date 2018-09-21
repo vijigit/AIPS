@@ -105,7 +105,7 @@ export class DynamoDBService {
         return new Promise((resolve, reject) => {
             DDB.put(itemParams, function (err) {
                 if (err) {
-                    Swal("", "Failed to update CandidateTestDetail", "error");
+                   // Swal("", "Failed to update CandidateTestDetail", "error");
                     reject(err);
                 }
                 else {                
@@ -376,6 +376,8 @@ export class DynamoDBService {
 
     writeIntoCandidateQuestionTbl(email : string, question: string): void {
 
+        console.log(email);
+
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
             IdentityPoolId: environment.identityPoolId
         })
@@ -388,6 +390,33 @@ export class DynamoDBService {
             TableName: environment.ddb_CandidateQuestions_Tbl,
             Item: {
                 Questions: question,
+                Email : email
+            }
+        };
+
+        DDB.put(itemParams, function (err) {
+
+            if(err) {
+                console.log(err);
+            }
+            console.log("DynamoDBService: wrote entry");
+        });
+    }
+
+    writeAnsIntoCandidateQuestionTbl(email : string, answer: string): void {
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPoolId
+        })
+        AWS.config.update({ region: environment.region });
+
+        var DDB = new AWS.DynamoDB.DocumentClient();
+
+        var itemParams =
+        {
+            TableName: environment.ddb_CandidateQuestions_Tbl,
+            Item: {
+                CandidateAnswer: answer,
                 Email : email
             }
         };

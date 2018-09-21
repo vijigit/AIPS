@@ -121,7 +121,7 @@ export class CriteriaComponent implements OnInit {
           questions.items.forEach(value => {
             let index = 1;
             if (index <= technology.weightage) {
-              item.push(new Item(value.question, value.option1, value.option2, value.option3, value.option4, value.answer, value.techName));
+              item.push(new Item(value.question, value.option1, value.option2, value.option3, value.option4, "0", value.techName));
               let candidateQuestions = new Questions();
               candidateQuestions.items = item;
               let jsonConvert: JsonConvert = new JsonConvert();
