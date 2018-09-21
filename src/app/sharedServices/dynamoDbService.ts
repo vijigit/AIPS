@@ -428,7 +428,7 @@ export class DynamoDBService {
         });
     }
 
-    getQuestionsForCandidate(email : string) {
+    getQuestionsForCandidate(email : string) {       
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
             IdentityPoolId: environment.identityPoolId
         })
@@ -445,7 +445,7 @@ export class DynamoDBService {
         };
 
         return Observable.create(observer => {
-            DDB.scan(params, function (err, data) {
+            DDB.get(params, function (err, data) {
                 if (err) {
                     observer.error(err);
                 }

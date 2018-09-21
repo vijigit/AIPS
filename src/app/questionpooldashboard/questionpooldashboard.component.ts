@@ -6,7 +6,7 @@ import { JsonConvert } from 'json2typescript';
 import { Questions } from '../sharedServices/questions';
 import { Item } from '../sharedServices/item';
 import Swal from 'sweetalert2';
-import { SelectQuestion } from '../sharedServices/select-question';
+import { CandidateQuestion } from '../sharedServices/select-question';
 import {PageEvent} from '@angular/material';
 
 
@@ -19,7 +19,7 @@ export class QuestionpooldashboardComponent implements OnInit {
 
   items: Techitems[] = [];  
   questionItems: Item[] = [];
-  ques: SelectQuestion[] = [];
+  ques: CandidateQuestion[] = [];
   currentUrl: string;
   p: number = 1;
   index: number = (this.p * 1);
@@ -47,7 +47,7 @@ export class QuestionpooldashboardComponent implements OnInit {
     this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
   }
 
-  trackByQuestions(selecQues: SelectQuestion) {
+  trackByQuestions(selecQues: CandidateQuestion) {
     return selecQues.id;
   }
 
@@ -86,7 +86,7 @@ export class QuestionpooldashboardComponent implements OnInit {
       let i = 1;
       for (let items of questions.items) {
         this.questionItems.push(items);
-        let q = new SelectQuestion();
+        let q = new CandidateQuestion();
         q.item = items;
         q.addQuestion = false;
         q.id = i;
@@ -100,7 +100,7 @@ export class QuestionpooldashboardComponent implements OnInit {
 
   }
 
-  addQues(selectedQuestion: SelectQuestion, event) {
+  addQues(selectedQuestion: CandidateQuestion, event) {
 
     if (event.target.checked) {
       this.listOfSelectedQuestionItems.push(selectedQuestion.item);
